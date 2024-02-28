@@ -1,4 +1,5 @@
 AFRAME.registerComponent('emit-when-near', {
+  multiple: true,
   schema: {
     target: {type: 'selector', default: '[camera]'},
     distance: {type: 'number', default: 1},
@@ -15,6 +16,7 @@ AFRAME.registerComponent('emit-when-near', {
   },
 
   checkDist: function () {
+    if (!this.el.object3D || !this.data.target.object3D) return;
     this.el.object3D.getWorldPosition(this.myPos);
     this.data.target.object3D.getWorldPosition(this.targetPos);
     const distanceTo = this.myPos.distanceTo(this.targetPos);
@@ -23,6 +25,7 @@ AFRAME.registerComponent('emit-when-near', {
       this.emiting = true;
       this.el.emit(this.data.event, {collidingEntity: this.data.target}, false);
       this.data.target.emit(this.data.event, {collidingEntity: this.el}, false);
+      console.log(this.el);
     } else {
       if (!this.emiting) return;
       this.el.emit(this.data.eventFar, {collidingEntity: this.data.target}, false);
@@ -30,5 +33,4 @@ AFRAME.registerComponent('emit-when-near', {
       this.emiting = false;
     }
   },
-
 });

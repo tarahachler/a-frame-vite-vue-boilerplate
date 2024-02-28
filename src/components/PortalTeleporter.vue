@@ -14,8 +14,9 @@
 
 <template>
   <a-entity
-    geometry="primitive: circle; radius: 1"
+    geometry="primitive: torusKnot; p: 9; q:7 ; radius: 0.3; radiusTubular: 0.1; segmentsTubular: 64; segmentsRadial: 8"
     clickable
+    scale="1 1 0.05"
     :teleport-camera-rig="`
       x: ${x};
       y: ${y};
