@@ -5,6 +5,7 @@ import "../aframe/simple-navmesh-constraint.js";
 import "../aframe/blink-controls.js";
 import "../aframe/physx-grab.js";
 import "../aframe/brush.js";
+import "../aframe/hide-in-vr.js";
 </script>
 
 <template>
@@ -70,10 +71,11 @@ import "../aframe/brush.js";
       </a-sphere>
     </a-entity>
     <a-box
+      hide-in-vr
       brush="activeColor: #00ff00; context: screen"
       id="desktop-hand-right"
       class="hand"
-      position="0.3 1.1 -0.5"
+      position="0.3 1.45 -0.5"
       rotation="0 0 40"
       color="red"
       width="0.1"

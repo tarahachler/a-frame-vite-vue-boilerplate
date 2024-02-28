@@ -1,12 +1,15 @@
-<script>
-  function sendColor(evt){
-    const el = evt.target;
-    console-log('sendColor');  
-    el.getAttribute('color');
-    const colorEvent = new CustomEvent('color-picked', { detail: colorString });
-    document.dispatchEvent(colorEvent);
-  }
+<script setup>
+import "../aframe/listen-to.js";
+import "../aframe/emit-when-near.js";
+import "../aframe/point-in-box.js";
 
+/* function sendColor(evt) {
+  const el = evt.target;
+  console.log("sendColor");
+  const colorString = el.getAttribute("color");
+  const colorEvent = new CustomEvent("color-picked", { detail: colorString });
+  document.dispatchEvent(colorEvent);
+} */
 </script>
 <template>
   <a-box
@@ -20,15 +23,22 @@
     material="opacity: 0.1"
   >
     <a-cylinder
-      clickable
-      @click="evt => sendColor(evt)"
-      id="palette-red"
       position="0.1 0.1 -0.001"
       rotation="90 0 0"
       radius="0.03"
       height="0.002"
-      color="red"
-    ></a-cylinder>
+      color="#ff0000"
+    >
+      <a-box
+        id="palette-picker-red"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"        
+        point-in-box="target: #hand-right;"
+        data-palette-color="#ff0000"
+      ></a-box>
+    </a-cylinder>
     <a-cylinder
       position="0 0.1 -0.001"
       rotation="90 0 0"

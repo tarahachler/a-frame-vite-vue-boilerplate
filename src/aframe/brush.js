@@ -1,9 +1,8 @@
 let pressed = false;
 AFRAME.registerComponent("brush", {
-    
   schema: {
     activeColor: { type: "string", default: "#0000ff" },
-    context: { type: 'string', oneOf: ["screen", "scene"], default: 'scene'}
+    context: { type: "string", oneOf: ["screen", "scene"], default: "scene" },
   },
 
   init: function () {
@@ -15,32 +14,38 @@ AFRAME.registerComponent("brush", {
     this.tick = AFRAME.utils.throttleTick(this.tick, 250, this);
     this.points = [];
 
-      if(this.data.context === "scene" ) {
-        this.el.addEventListener("gripdown", () => {
-          pressed = true;
-        });
-        this.el.addEventListener("gripup", () => {
+    if (this.data.context === "scene") {
+      this.el.addEventListener("gripdown", () => {
+        pressed = true;
+      });
+      this.el.addEventListener("gripup", () => {
+        pressed = false;
+        this.points = [];
+      });
+    } else {
+      window.addEventListener("keydown", function(event) {
+        if(event.key == " ") {
+          if(pressed) {
             pressed = false;
             this.points = [];
-          });
-      } else {
-
-       window.addEventListener("click", () => {
-          // console.log("click scene");
-          pressed = !pressed;
-        });
-      }
-
-      document.addEventListener("color-picked", (e) => {
-        this.data.activeColor = e.detail.color;
-        console.log("color picked", this.data.activeColor);
+          } else {
+            pressed = true;
+          }          
+        }
       });
+    }
+    document.addEventListener("color-picked", (e) => {
+      this.data.activeColor = e.detail;
+      console.log("color picked", this.data.activeColor);
+    });
   },
 
   tick: function () {
+
     // If the button is not pressed, do nothing
     if (!pressed) return;
-
+    if(this.el.sceneEl.is("vr-mode") && this.data.context === "screen") return;
+    if(!this.el.sceneEl.is("vr-mode") && this.data.context === "scene") return;
     //Create a closed wavey loop
     this.el.object3D.getWorldPosition(this.pos);
     this.points.push(this.pos.clone());

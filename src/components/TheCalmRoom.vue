@@ -82,7 +82,6 @@ function grabTheThing(evt) {
       position="0 1.005 1.5"
       scale="0.02 0.02 0.02"
       emit-when-near__1="distance: 1; target: .hand; event: click"
-      emit-when-near__2="distance: 0.4; event: click; target: #palette-red"
       @click="evt => grabTheThing(evt)"
     ></a-entity>
     <a-entity
@@ -90,7 +89,7 @@ function grabTheThing(evt) {
       gltf-model="#calm-table"
       rotation="0 -225 0"
       position="0.3 0.2 1.7"
-      emit-when-near="distance: 1; target: .hand; event: click"
+      emit-when-near="distance: 0.5; target: .hand; event: click"
     ></a-entity>
     <a-entity
       id="drop-zone-table"
