@@ -20,6 +20,7 @@ const allAssetsLoaded = ref(false);
 <template>
   <a-scene
     background="color: #D2E8E3;"
+    stats
     fog="type: linear; color: #D2E8E3; near: 3; far: 20; density: 0.5"
     :webxr="`
       requiredFeatures: local-floor;
@@ -73,6 +74,10 @@ const allAssetsLoaded = ref(false);
       <a-asset-item
         id="paintbrush"
         src="assets/small_paintbrush.glb"
+      ></a-asset-item>
+      <a-asset-item
+        id="fake-right-hand"
+        src="assets/right_hand.glb"
       ></a-asset-item>
     </a-assets>
 

@@ -1,4 +1,5 @@
 let pressed = false;
+let points = [];
 AFRAME.registerComponent("brush", {
   schema: {
     activeColor: { type: "string", default: "#0000ff" },
@@ -12,7 +13,7 @@ AFRAME.registerComponent("brush", {
     this.curveObject = null;
     this.lastCurveObject = null;
     this.tick = AFRAME.utils.throttleTick(this.tick, 250, this);
-    this.points = [];
+    points = [];
 
     if (this.data.context === "scene") {
       this.el.addEventListener("gripdown", () => {
@@ -20,41 +21,45 @@ AFRAME.registerComponent("brush", {
       });
       this.el.addEventListener("gripup", () => {
         pressed = false;
-        this.points = [];
+        points = [];
       });
     } else {
       window.addEventListener("keydown", function(event) {
         if(event.key == " ") {
-          if(pressed) {
-            pressed = false;
-            this.points = [];
-          } else {
-            pressed = true;
-          }          
+          points = []; 
+          console.log("Dans init :" + points.length)
+          pressed = !pressed;     
         }
       });
     }
     document.addEventListener("color-picked", (e) => {
+      console.log("color-picked event received")
       this.data.activeColor = e.detail;
-      console.log("color picked", this.data.activeColor);
+      points = [];
     });
   },
 
   tick: function () {
-
     // If the button is not pressed, do nothing
     if (!pressed) return;
+    // If the brush isn't grabbed, do nothing
+    const grabbedEl = document.querySelector('[data-grabbed]');
+    if (!grabbedEl){
+      pressed = false;
+      return;
+    }
     if(this.el.sceneEl.is("vr-mode") && this.data.context === "screen") return;
     if(!this.el.sceneEl.is("vr-mode") && this.data.context === "scene") return;
     //Create a closed wavey loop
     this.el.object3D.getWorldPosition(this.pos);
-    this.points.push(this.pos.clone());
-    if (this.points.length < 2) return;
+    points.push(this.pos.clone());
+    if (points.length < 2) return;
 
-    const curve = new THREE.CatmullRomCurve3(this.points, false, "chordal", 0);
-    const points = curve.getPoints(200);
+    console.log("Dans tick :" + points.length);
+    const curve = new THREE.CatmullRomCurve3(points, false, "chordal", 0);
+    const pointsCurve = curve.getPoints(200);
     this.geometry = null;
-    this.geometry = new THREE.BufferGeometry().setFromPoints(points);
+    this.geometry = new THREE.BufferGeometry().setFromPoints(pointsCurve);
 
     const material = new THREE.LineBasicMaterial({
       color: new THREE.Color(this.data.activeColor),
@@ -63,14 +68,7 @@ AFRAME.registerComponent("brush", {
       linejoin: "round",
     });
     this.curveObject = new THREE.Line(this.geometry, material);
-
-    /* if (this.lastCurveObject) {
-      this.el.sceneEl.object3D.remove(this.lastCurveObject);
-    } */
-
-    //this.curveObject.position.set(0, -0.5, 0);
     this.el.sceneEl.object3D.add(this.curveObject);
-
     this.lastCurveObject = this.curveObject;
   },
 });

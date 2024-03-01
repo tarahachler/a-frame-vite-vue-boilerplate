@@ -6,6 +6,8 @@ import "../aframe/blink-controls.js";
 import "../aframe/physx-grab.js";
 import "../aframe/brush.js";
 import "../aframe/hide-in-vr.js";
+import "../aframe/bind-position.js";
+import "../aframe/bind-rotation.js";
 </script>
 
 <template>
@@ -70,18 +72,17 @@ import "../aframe/hide-in-vr.js";
       >
       </a-sphere>
     </a-entity>
-    <a-box
-      hide-in-vr
-      brush="activeColor: #00ff00; context: screen"
+    <a-entity
       id="desktop-hand-right"
       class="hand"
+      hide-in-vr
+      brush="activeColor: #00ff00; context: screen"
       position="0.3 1.45 -0.5"
-      rotation="0 0 40"
-      color="red"
-      width="0.1"
-      height="0.1"
-      depth="0.1"
-      opacity="0.2"
-    ></a-box>
+      yrotation="0 60 40"
+      scale="0.005 0.005 0.005"
+      bind-rotation="target: #head; offset: 0 60 40; convertToLocal: true"
+    >
+      <a-gltf-model id="fake-right-hand" src="#fake-right-hand"></a-gltf-model>
+    </a-entity>
   </a-entity>
 </template>

@@ -10,6 +10,13 @@ import "../aframe/point-in-box.js";
   const colorEvent = new CustomEvent("color-picked", { detail: colorString });
   document.dispatchEvent(colorEvent);
 } */
+
+const el = document.querySelector("a-scene");
+
+//TODO : vérifier que c'est true en VR
+const vr = el.sceneEl.is("vr-mode");
+
+console.log("context", vr);
 </script>
 <template>
   <a-box
@@ -30,12 +37,23 @@ import "../aframe/point-in-box.js";
       color="#ff0000"
     >
       <a-box
+        v-if="vr"
         id="palette-picker-red"
         height="0.1"
         width="0.1"
         depth="0.1"
-        visible="false"        
+        visible="true"        
         point-in-box="target: #hand-right;"
+        data-palette-color="#ff0000"
+      ></a-box>
+      <a-box
+        v-if="!vr"
+        id="palette-picker-red"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="true"        
+        point-in-box="target: #desktop-hand-right;"
         data-palette-color="#ff0000"
       ></a-box>
     </a-cylinder>
