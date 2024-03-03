@@ -25,6 +25,10 @@ AFRAME.registerComponent("point-in-box", {
       //console.log(selectedColor);
       const colorEvent = new CustomEvent("color-picked", { detail: selectedColor });
       document.dispatchEvent(colorEvent);
+
+      const palette = document.querySelector("#palette");
+      palette.components.sound.playSound();
+
     }
   },
 });

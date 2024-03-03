@@ -14,11 +14,11 @@ import "../aframe/life-like-automaton.js";
     scale="0.7 0.2 0.7"
   >
     <PortalTeleporter
-      label="Sortie"
+      xlabel="Sortie"
       position="-1.3 6.4 -4.2"
       rotation="0 0 0"
       scale="0.5 0.5 0.5"
-      life-like-automaton="resolution: 256;"
+      xlife-like-automaton="resolution: 256;"
       :rot="0"
       :y="0"
     />

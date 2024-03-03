@@ -2,7 +2,7 @@ let pressed = false;
 let points = [];
 AFRAME.registerComponent("brush", {
   schema: {
-    activeColor: { type: "string", default: "#0000ff" },
+    activeColor: { type: "string", default: "" },
     context: { type: "string", oneOf: ["screen", "scene"], default: "scene" },
   },
 
@@ -14,26 +14,32 @@ AFRAME.registerComponent("brush", {
     this.lastCurveObject = null;
     this.tick = AFRAME.utils.throttleTick(this.tick, 250, this);
     points = [];
+    const brushPoint = document.querySelector("#paintbrush-color");
 
     if (this.data.context === "scene") {
       this.el.addEventListener("gripdown", () => {
         pressed = true;
+        brushPoint.components.sound.playSound();
       });
       this.el.addEventListener("gripup", () => {
         pressed = false;
         points = [];
+        brushPoint.components.sound.stopSound();
       });
     } else {
       window.addEventListener("keydown", function(event) {
         if(event.key == " ") {
           points = []; 
-          console.log("Dans init :" + points.length)
           pressed = !pressed;     
+          if(pressed) {
+            brushPoint.components.sound.playSound();
+          } else {
+            brushPoint.components.sound.stopSound();
+          }
         }
       });
     }
     document.addEventListener("color-picked", (e) => {
-      console.log("color-picked event received")
       this.data.activeColor = e.detail;
       points = [];
     });
@@ -55,7 +61,6 @@ AFRAME.registerComponent("brush", {
     points.push(this.pos.clone());
     if (points.length < 2) return;
 
-    console.log("Dans tick :" + points.length);
     const curve = new THREE.CatmullRomCurve3(points, false, "chordal", 0);
     const pointsCurve = curve.getPoints(200);
     this.geometry = null;

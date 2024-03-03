@@ -58,7 +58,7 @@ import "../aframe/bind-rotation.js";
     <a-entity
       id="hand-right"
       class="hand"
-      brush="activeColor: #00ff00;"
+      brush
       hand-controls="hand: right"
       laser-controls="hand: right"
       raycaster="far: 4; objects: [clickable]; showLine: true;"
@@ -76,8 +76,8 @@ import "../aframe/bind-rotation.js";
       id="desktop-hand-right"
       class="hand"
       hide-in-vr
-      brush="activeColor: #00ff00; context: screen"
-      position="0.3 1.45 -0.5"
+      brush="context: screen"
+      position="0.3 1.35 -0.6"
       yrotation="0 60 40"
       scale="0.005 0.005 0.005"
       bind-rotation="target: #head; offset: 0 60 40; convertToLocal: true"

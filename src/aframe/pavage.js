@@ -3,7 +3,9 @@ AFRAME.registerComponent('pavage', {
       tileSize: { default: 1 },  
       cols: { default: 5 },       
       rows: { default: 5 },       
-      offset: { default: 0 } 
+      offset: { default: 0 } ,
+      color_1: { default: '#596d5a' },
+      color_2: { default: '#ffe2b8' }
     },
   
     init: function () {
@@ -23,9 +25,9 @@ AFRAME.registerComponent('pavage', {
           tile.setAttribute('depth', data.tileSize);                          
             
           if ((i + j) % 2 === 0) {
-            tile.setAttribute('color', '#FFCC66'); // Couleur noire pour les cases paires
+            tile.setAttribute('color', data.color_1); // Couleur noire pour les cases paires
           } else {
-            tile.setAttribute('color', '#B9B3FC'); // Couleur blanche pour les cases impaires
+            tile.setAttribute('color', data.color_2); // Couleur blanche pour les cases impaires
           }
           el.appendChild(tile);
         }

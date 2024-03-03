@@ -16,10 +16,10 @@ const el = document.querySelector("a-scene");
 //TODO : vérifier que c'est true en VR
 const vr = el.sceneEl.is("vr-mode");
 
-console.log("context", vr);
 </script>
 <template>
   <a-box
+  id="palette"
     position="0.5 1.4 1.8"
     rotation="0 -45 0"
     width="0.3"
@@ -28,6 +28,7 @@ console.log("context", vr);
     color="beige"
     roughness="0.75"
     material="opacity: 0.1"
+    sound="src: #color-pick; autoplay: false;"
   >
     <a-cylinder
       position="0.1 0.1 -0.001"
@@ -37,23 +38,12 @@ console.log("context", vr);
       color="#ff0000"
     >
       <a-box
-        v-if="vr"
         id="palette-picker-red"
         height="0.1"
         width="0.1"
         depth="0.1"
-        visible="true"        
-        point-in-box="target: #hand-right;"
-        data-palette-color="#ff0000"
-      ></a-box>
-      <a-box
-        v-if="!vr"
-        id="palette-picker-red"
-        height="0.1"
-        width="0.1"
-        depth="0.1"
-        visible="true"        
-        point-in-box="target: #desktop-hand-right;"
+        visible="false"        
+        point-in-box="target: #paintbrush-color;"
         data-palette-color="#ff0000"
       ></a-box>
     </a-cylinder>
@@ -63,14 +53,33 @@ console.log("context", vr);
       radius="0.03"
       height="0.002"
       color="blue"
-    ></a-cylinder>
+    >
+    <a-box
+        id="palette-picker-blue"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"        
+        point-in-box="target: #paintbrush-color;"
+        data-palette-color="#0000ff"
+      ></a-box>
+    </a-cylinder>
     <a-cylinder
       position="-0.1 0.1 -0.001"
       rotation="90 0 0"
       radius="0.03"
       height="0.002"
       color="green"
-    ></a-cylinder>
+    >
+    <a-box
+        id="palette-picker-green"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"        
+        point-in-box="target: #paintbrush-color;"
+        data-palette-color="#00ff00"
+      ></a-box></a-cylinder>
     <a-cylinder
       position="0.1 0 -0.001"
       rotation="90 0 0"

@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { randomHsl } from "../utils/color.js";
 import BoxColorChanging from "./BoxColorChanging.vue";
 import PortalTeleporter from "./PortalTeleporter.vue";
-import { copyPosition, copyRotation } from '../utils/aframe.js';
+import { copyPosition, copyRotation } from "../utils/aframe.js";
 
 import ColorPicker from "./ColorPicker.vue";
 import "../aframe/life-like-automaton.js";
@@ -14,91 +14,155 @@ import "../aframe/bind-rotation.js";
 import "../aframe/ungrabable.js"; */
 import "../aframe/listen-to.js";
 import "../aframe/emit-when-near.js";
+import "../aframe/color-switch.js";
+
+const sceneElement = document.querySelector("a-scene");
+const vr = sceneElement.sceneEl.is("vr-mode");
 
 function grabTheThing(evt) {
-    // if something already grabbed, switch it
-    const el = evt.target;
-    const grabbedEl = document.querySelector('[data-grabbed]');
-    if (grabbedEl) {
-      grabbedEl.removeAttribute('bind-position');
-      grabbedEl.removeAttribute('bind-rotation');
-      copyPosition(el, grabbedEl);
-      copyRotation(el, grabbedEl);
-      delete grabbedEl.dataset.grabbed;
-      delete grabbedEl.dataset.dropped;
-      if (el.dataset.dropped) {
-        grabbedEl.dataset.dropped = el.dataset.dropped;
-      }
-    }
-
-    if (el.sceneEl.is('vr-mode')) {
-      el.setAttribute('bind-position', 'target: #hand-right');
-      el.setAttribute('bind-rotation', 'target: #hand-right');
-    } else {
-      el.setAttribute('bind-position', 'target: #desktop-hand-right');
-      el.setAttribute('bind-rotation', 'target: #desktop-hand-right; convertToLocal: true');
-    }
-    el.dataset.grabbed = true;
-    delete el.dataset.dropped;
-  }
-
-  function dropTheThing(evt) {
-    const grabbedEl = document.querySelector('[data-grabbed]');
-    // if nothing grabbed, return
-    if (!grabbedEl) return;
-
-    //drop it
-    grabbedEl.removeAttribute('bind-position');
-    grabbedEl.removeAttribute('bind-rotation');
-    copyPosition(evt.target, grabbedEl);
-    copyRotation(evt.target, grabbedEl);
+  // if something already grabbed, switch it
+  const el = evt.target;
+  const grabbedEl = document.querySelector("[data-grabbed]");
+  if (grabbedEl) {
+    grabbedEl.removeAttribute("bind-position");
+    grabbedEl.removeAttribute("bind-rotation");
+    copyPosition(el, grabbedEl);
+    copyRotation(el, grabbedEl);
     delete grabbedEl.dataset.grabbed;
-
-    const dropZoneId = evt.target.id;
-    // if something was in the drop zone, grab it
-    const elInDropZone = document.querySelector(`[data-dropped="${dropZoneId}"]`);
-    if (elInDropZone) {
-      grabTheThing({ target: elInDropZone });
-    };
-
-    grabbedEl.dataset.dropped = dropZoneId;
+    delete grabbedEl.dataset.dropped;
+    if (el.dataset.dropped) {
+      grabbedEl.dataset.dropped = el.dataset.dropped;
+    }
   }
+
+  if (vr) {
+    el.setAttribute("bind-position", "target: #hand-right");
+    el.setAttribute("bind-rotation", "target: #hand-right");
+  } else {
+    el.setAttribute("bind-position", "target: #desktop-hand-right");
+    el.setAttribute(
+      "bind-rotation",
+      "target: #desktop-hand-right; convertToLocal: true"
+    );
+  }
+  el.dataset.grabbed = true;
+  delete el.dataset.dropped;
+  el.components.sound.playSound();
+}
+
+function dropTheThing(evt) {
+  const grabbedEl = document.querySelector("[data-grabbed]");
+  // if nothing grabbed, return
+  if (!grabbedEl) return;
+
+  //drop it
+  grabbedEl.removeAttribute("bind-position");
+  grabbedEl.removeAttribute("bind-rotation");
+  copyPosition(evt.target, grabbedEl);
+  copyRotation(evt.target, grabbedEl);
+  delete grabbedEl.dataset.grabbed;
+
+  const dropZoneId = evt.target.id;
+  // if something was in the drop zone, grab it
+  const elInDropZone = document.querySelector(`[data-dropped="${dropZoneId}"]`);
+  if (elInDropZone) {
+    grabTheThing({ target: elInDropZone });
+  }
+
+  grabbedEl.dataset.dropped = dropZoneId;
+  evt.target.components.sound.playSound();
+}
+
+function takePicture(evt) {
+  const polaroid = document.querySelector("#polaroid");
+  const picture = document
+    .querySelector("a-scene")
+    .components.screenshot.capture("perspective");
+  evt.target.components.sound.playSound();
+}
 </script>
 
 <template>
-  <a-entity pavage="tileSize: 0.5; offset:0.0001 " position="0 199.9 0">
+  <a-entity pavage="tileSize: 0.5; offset:0.0001 " position="0 99.9 0">
     <PortalTeleporter
-      label="Sortie"
-      life-like-automaton="resolution: 256;"
-      position="0 1.5 0"
+      position="0 0 0"
       rotation="0 45 0"
-      :rot="0"
+      :rot="220"
       :y="0"
+      :x="-0.7"
+    :z="-2.4"
+      listen-to="target: #portal"
+      sound="src: #teleport; on: click; volume: 2"
     />
+    <a-entity
+      id="polaroid"
+      gltf-model="#polaroid"
+      rotation="0 20 0"
+      position="0.8 1.7 -0.2"
+      scale="0.3 0.3 0.3"
+      clickable
+      @click="(evt) => takePicture(evt)"
+      material="fog: false"
+      sound="src: #picture-sound; autoplay: false; volume: 1.5;"
+    ></a-entity>
     <a-entity
       id="paintbrush"
       gltf-model="#paintbrush"
-      rotation="0 45 -90"
-      position="0 1.005 1.5"
+      rotation="0 75 -90"
+      position="0.15 1.005 1.6"
       scale="0.02 0.02 0.02"
       emit-when-near__1="distance: 1; target: .hand; event: click"
-      @click="evt => grabTheThing(evt)"
-    ></a-entity>
+      @click="(evt) => grabTheThing(evt)"
+      sound="src: #brush-up-hand; autoplay: false; volume: 1.5;"
+    >
+      <a-sphere
+        id="paintbrush-color"
+        scale="0.2 0.2 0.2"
+        position="0.3 0.75 0"
+        color-switch
+        visible="false"
+        sound="src: #brush-sound; autoplay: false;"
+      ></a-sphere>
+    </a-entity>
     <a-entity
       id="table"
       gltf-model="#calm-table"
       rotation="0 -225 0"
       position="0.3 0.2 1.7"
-      emit-when-near="distance: 0.5; target: .hand; event: click"
-    ></a-entity>
+    >
+      <a-box
+        v-if="!vr"
+        id="table-detect-zone"
+        position="0.2 0.85 0"
+        scale="0.3 0.1 0.5"
+        visible="false"
+        emit-when-near="distance: 1.15; target: .hand; event: click"
+      >
+      </a-box>
+      <a-box
+        v-if="vr"
+        id="table-detect-zone"
+        position="0.2 0.85 0"
+        scale="0.3 0.1 0.5"
+        visible="false"
+        emit-when-near="distance: 0.5; target: .hand; event: click"
+      >
+      </a-box>
+    </a-entity>
     <a-entity
       id="drop-zone-table"
-      rotation="0 45 -90"
-      position="0 1.005 1.5"
-      listen-to="target: #table;"
-      @click="evt => dropTheThing(evt)"
+      rotation="0 75 -90"
+      position="0.15 1.005 1.6"
+      listen-to="target: #table-detect-zone;"
+      @click="(evt) => dropTheThing(evt)"
+      sound="src: #brush-down-table; autoplay: false;"
     ></a-entity>
-    <ColorPicker/> 
+    <ColorPicker />
+    <a-entity
+      gltf-model="#cans"
+      rotation="0 45 0"
+      position="-0.05 1 1.4"
+    ></a-entity>
     <a-entity gltf-model="#light-bulb" position="3 2 3">
       <a-entity
         light="type: point; color: red; intensity: 0.3"
@@ -166,8 +230,8 @@ function grabTheThing(evt) {
     ></a-entity>
     <a-ocean
       position="0 -0.5 0"
-      width="100"
-      depth="100"
+      width="50"
+      depth="50"
       density="10"
       speed="1"
       amplitude="0.2"
@@ -175,13 +239,17 @@ function grabTheThing(evt) {
     ></a-ocean>
     <a-ocean
       position="0 -0.5 0"
-      width="100"
-      depth="100"
+      width="50"
+      depth="50"
       density="7"
       speed="0.2"
       amplitude="0.2"
       color="#c2c2ff"
     ></a-ocean>
+    <a-entity sound="src: #lake; autoplay: true; loop: true; volume:0.5"></a-entity>
+    <a-entity
+      sound="src: #music; autoplay: true; loop: true; volume:0.2"
+    ></a-entity>
   </a-entity>
 
   <!-- Main room navigation mesh  -->
