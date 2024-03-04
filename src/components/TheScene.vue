@@ -19,7 +19,7 @@ const allAssetsLoaded = ref(false);
 <template>
   
   <a-scene
-    zstats
+    stats
     fog="type: linear; color: #2f273c; near: 2; far: 700; density: 0.02"
     zrfog="type: linear; color: #D2E8E3: density: 0.00025;"
     zfog="type: exponential; color: #D2E8E3; near: 3; far: 50; density: 0.00035;"
@@ -89,6 +89,10 @@ const allAssetsLoaded = ref(false);
       <a-asset-item
         id="cans"
         src="assets/cans_of_paint__varnish_lowpoly.glb"
+      ></a-asset-item>
+      <a-asset-item
+        id="portal-animation"
+        src="assets/dimensiones_b.glb"
       ></a-asset-item>
       <audio id="lake" src="assets/lake-sound.MP3" preload="auto"></audio>
       <audio id="intro" src="assets/aev-intro.MP3" preload="auto"></audio>

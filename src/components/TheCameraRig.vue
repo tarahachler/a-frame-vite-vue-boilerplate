@@ -8,6 +8,7 @@ import "../aframe/brush.js";
 import "../aframe/hide-in-vr.js";
 import "../aframe/bind-position.js";
 import "../aframe/bind-rotation.js";
+import "../aframe/hand-is-vr.js";
 </script>
 
 <template>
@@ -57,8 +58,9 @@ import "../aframe/bind-rotation.js";
 
     <a-entity
       id="hand-right"
-      class="hand"
+      hand-is-vr
       brush
+      class="hand"
       hand-controls="hand: right"
       laser-controls="hand: right"
       raycaster="far: 4; objects: [clickable]; showLine: true;"
@@ -75,6 +77,7 @@ import "../aframe/bind-rotation.js";
     <a-entity
       id="desktop-hand-right"
       class="hand"
+      hand-is-vr
       hide-in-vr
       brush="context: screen"
       position="0.3 1.35 -0.6"

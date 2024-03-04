@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { randomHsl } from "../utils/color.js";
 import BoxColorChanging from "./BoxColorChanging.vue";
 import PortalTeleporter from "./PortalTeleporter.vue";
@@ -15,9 +15,7 @@ import "../aframe/ungrabable.js"; */
 import "../aframe/listen-to.js";
 import "../aframe/emit-when-near.js";
 import "../aframe/color-switch.js";
-
-const sceneElement = document.querySelector("a-scene");
-const vr = sceneElement.sceneEl.is("vr-mode");
+import "../aframe/disable-in-vr.js";
 
 function grabTheThing(evt) {
   // if something already grabbed, switch it
@@ -35,16 +33,9 @@ function grabTheThing(evt) {
     }
   }
 
-  if (vr) {
-    el.setAttribute("bind-position", "target: #hand-right");
-    el.setAttribute("bind-rotation", "target: #hand-right");
-  } else {
-    el.setAttribute("bind-position", "target: #desktop-hand-right");
-    el.setAttribute(
-      "bind-rotation",
-      "target: #desktop-hand-right; convertToLocal: true"
-    );
-  }
+  el.setAttribute("bind-position", "target: .hand");
+  el.setAttribute("bind-rotation", "target: .hand");
+
   el.dataset.grabbed = true;
   delete el.dataset.dropped;
   el.components.sound.playSound();
@@ -90,7 +81,7 @@ function takePicture(evt) {
       :rot="220"
       :y="0"
       :x="-0.7"
-    :z="-2.4"
+      :z="-2.4"
       listen-to="target: #portal"
       sound="src: #teleport; on: click; volume: 2"
     />
@@ -105,25 +96,32 @@ function takePicture(evt) {
       material="fog: false"
       sound="src: #picture-sound; autoplay: false; volume: 1.5;"
     ></a-entity>
+
     <a-entity
-      id="paintbrush"
-      gltf-model="#paintbrush"
-      rotation="0 75 -90"
-      position="0.15 1.005 1.6"
-      scale="0.02 0.02 0.02"
-      emit-when-near__1="distance: 1; target: .hand; event: click"
+      rotation="0 40 -90"
+      position="0.3 1.005 1.65"
+      emit-when-near="distance: 0.5; target: .hand; event: click"
       @click="(evt) => grabTheThing(evt)"
-      sound="src: #brush-up-hand; autoplay: false; volume: 1.5;"
     >
-      <a-sphere
-        id="paintbrush-color"
-        scale="0.2 0.2 0.2"
-        position="0.3 0.75 0"
-        color-switch
-        visible="false"
-        sound="src: #brush-sound; autoplay: false;"
-      ></a-sphere>
+      <a-entity
+        id="paintbrush"
+        gltf-model="#paintbrush"
+        position="-0.02 -0.1 0"
+        rotation="-45 0 0"
+        scale="0.02 0.02 0.02"
+        sound="src: #brush-up-hand; autoplay: false; volume: 1.5;"
+      >
+        <a-sphere
+          id="paintbrush-color"
+          scale="0.2 0.2 0.2"
+          position="0.3 0.75 0"
+          color-switch
+          visible="false"
+          sound="src: #brush-sound; autoplay: false;"
+        ></a-sphere>
+      </a-entity>
     </a-entity>
+
     <a-entity
       id="table"
       gltf-model="#calm-table"
@@ -131,28 +129,19 @@ function takePicture(evt) {
       position="0.3 0.2 1.7"
     >
       <a-box
-        v-if="!vr"
         id="table-detect-zone"
         position="0.2 0.85 0"
         scale="0.3 0.1 0.5"
         visible="false"
-        emit-when-near="distance: 1.15; target: .hand; event: click"
-      >
-      </a-box>
-      <a-box
-        v-if="vr"
-        id="table-detect-zone"
-        position="0.2 0.85 0"
-        scale="0.3 0.1 0.5"
-        visible="false"
-        emit-when-near="distance: 0.5; target: .hand; event: click"
+        emit-when-near__vr="distance: 0.25; target: #hand-right; event: click"
+        emit-when-near__desktop="distance: 1.15; target: #desktop-hand-right; event: click"
       >
       </a-box>
     </a-entity>
     <a-entity
       id="drop-zone-table"
-      rotation="0 75 -90"
-      position="0.15 1.005 1.6"
+      rotation="0 40 -90"
+      position="0.3 1.005 1.65"
       listen-to="target: #table-detect-zone;"
       @click="(evt) => dropTheThing(evt)"
       sound="src: #brush-down-table; autoplay: false;"
@@ -246,7 +235,9 @@ function takePicture(evt) {
       amplitude="0.2"
       color="#c2c2ff"
     ></a-ocean>
-    <a-entity sound="src: #lake; autoplay: true; loop: true; volume:0.5"></a-entity>
+    <a-entity
+      sound="src: #lake; autoplay: true; loop: true; volume:0.5"
+    ></a-entity>
     <a-entity
       sound="src: #music; autoplay: true; loop: true; volume:0.2"
     ></a-entity>

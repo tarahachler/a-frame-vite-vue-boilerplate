@@ -35,7 +35,7 @@
     /> -->
       <a-entity light="type: point; color: beige; intensity: 0.15;"
       position="0 0 0"></a-entity>
-    <a-entity animation-mixer="repetitions: 6;" gltf-model="#teddy-bear" position="0.5 0 -2.5" scale="1.9 1.9 1.9" sound="src: #intro; autoplay: true">
+    <a-entity animation-mixer="repetitions: 6;" gltf-model="#teddy-bear" position="0.5 0 -2.5" scale="1.9 1.9 1.9" zsound="src: #intro; autoplay: true">
       </a-entity>
       <a-ocean
       position="0 -0.5 0"
