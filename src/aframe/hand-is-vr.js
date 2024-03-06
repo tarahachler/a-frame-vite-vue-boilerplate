@@ -1,23 +1,20 @@
-AFRAME.registerGeometry("hand-is-vr", {
+AFRAME.registerComponent("hand-is-vr", {
   init: function () {
-    if (
-      this.el.sceneEl.is("vr-mode") &&
-      this.el.getAttribute("id") === "hand-right"
-    ) {
-        //désactiver la main desktop droite
-        const desktopHandRight = document.getElementById("desktop-hand-right");
-        desktopHandRight.removeAttribute("class", "hand");
-      {
-      }
-    }
-    if (
+    const vrHandRight = document.getElementById("hand-right");
+   /*  if (
       !this.el.sceneEl.is("vr-mode") &&
       this.el.getAttribute("id") === "desktop-hand-right"
     ) {
-        console.log("desktop, main vr droite désactivée");
-        const vrHandRight = document.getElementById("hand-right");
         //désactiver la main vr droite
         vrHandRight.removeAttribute("class", "hand");
-    }
+    } */
+    document.addEventListener("enter-vr", () => {
+        //réactiver la main droite si on revient en vr
+        vrHandRight.setAttribute("class", "hand");
+    });
+    document.addEventListener("exit-vr", () => {
+      //réactiver la main droite si on revient en vr
+      vrHandRight.removeAttribute("class", "hand");
+  });
   },
 });

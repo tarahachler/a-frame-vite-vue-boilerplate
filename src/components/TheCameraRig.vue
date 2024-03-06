@@ -8,7 +8,17 @@ import "../aframe/brush.js";
 import "../aframe/hide-in-vr.js";
 import "../aframe/bind-position.js";
 import "../aframe/bind-rotation.js";
-import "../aframe/hand-is-vr.js";
+//import "../aframe/hand-is-vr.js";
+
+const vrHandRight = document.getElementById("hand-right");
+document.addEventListener("enter-vr", () => {
+  //réactiver la main droite si on revient en vr
+  vrHandRight.setAttribute("class", "hand");
+});
+document.addEventListener("exit-vr", () => {
+  //réactiver la main droite si on revient en vr
+  vrHandRight.removeAttribute("class", "hand");
+});
 </script>
 
 <template>
@@ -56,11 +66,12 @@ import "../aframe/hand-is-vr.js";
       </a-sphere>
     </a-entity>
 
+    <!-- TODO: test vr et si ça fonctionne, enlever les attribut avec zz -->
     <a-entity
       id="hand-right"
-      hand-is-vr
       brush
-      class="hand"
+      zzhand-is-vr
+      zzclass="hand"
       hand-controls="hand: right"
       laser-controls="hand: right"
       raycaster="far: 4; objects: [clickable]; showLine: true;"
@@ -77,7 +88,6 @@ import "../aframe/hand-is-vr.js";
     <a-entity
       id="desktop-hand-right"
       class="hand"
-      hand-is-vr
       hide-in-vr
       brush="context: screen"
       position="0.3 1.35 -0.6"

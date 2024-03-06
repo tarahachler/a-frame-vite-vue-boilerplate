@@ -74,7 +74,7 @@ function takePicture(evt) {
 </script>
 
 <template>
-  <a-entity pavage="tileSize: 0.5; offset:0.0001 " position="0 99.9 0">
+  <a-entity pavage="tileSize: 0.6; offset:0.0001 " position="0 99.9 0">
     <PortalTeleporter
       position="0 0 0"
       rotation="0 45 0"
@@ -99,7 +99,7 @@ function takePicture(evt) {
 
     <a-entity
       rotation="0 40 -90"
-      position="0.3 1.005 1.65"
+      position="0.3 1.005 2.05"
       emit-when-near="distance: 0.5; target: .hand; event: click"
       @click="(evt) => grabTheThing(evt)"
     >
@@ -126,7 +126,7 @@ function takePicture(evt) {
       id="table"
       gltf-model="#calm-table"
       rotation="0 -225 0"
-      position="0.3 0.2 1.7"
+      position="0.3 0.2 2.1"
     >
       <a-box
         id="table-detect-zone"
@@ -141,7 +141,7 @@ function takePicture(evt) {
     <a-entity
       id="drop-zone-table"
       rotation="0 40 -90"
-      position="0.3 1.005 1.65"
+      position="0.3 1.005 2.05"
       listen-to="target: #table-detect-zone;"
       @click="(evt) => dropTheThing(evt)"
       sound="src: #brush-down-table; autoplay: false;"
@@ -150,9 +150,9 @@ function takePicture(evt) {
     <a-entity
       gltf-model="#cans"
       rotation="0 45 0"
-      position="-0.05 1 1.4"
+      position="-0.05 1 1.8"
     ></a-entity>
-    <a-entity gltf-model="#light-bulb" position="3 2 3">
+    <a-entity gltf-model="#light-bulb" position="2.3 2 3.6">
       <a-entity
         light="type: point; color: red; intensity: 0.3"
         position="0 0 0"
@@ -171,24 +171,60 @@ function takePicture(evt) {
       ></a-entity>
     </a-entity>
     <a-entity
+      animation__up="property: position; to: 0 2 2.98; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 0 2 2.9; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
       gltf-model="#cloud"
-      position="0 2 3"
+      position="0 2 2.9"
       scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
     ></a-entity>
     <a-entity
+      animation__up="property: position; to: 1.5 2.7 -0.375; dur: 1800; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 1.5 2.6 -0.375; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
+      gltf-model="#cloud"
+      position="1.5 2.6 -0.375"
+      scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
+    ></a-entity>
+    <a-entity
+      animation__up="property: position; to: 1.46 3.3 4.16; dur: 2100; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 1.46 3.2 4.16; dur: 2100; easing: easeInOutSine; startEvents: animationcomplete__up"
+      gltf-model="#cloud"
+      position="1.46 3.2 4.16"
+      scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
+    ></a-entity>
+    <a-entity
+      animation__up="property: position; to: 1 2.92 4; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 1 2.8 4; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
       gltf-model="#cloud"
       position="1 2.8 4"
       scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
     ></a-entity>
     <a-entity
+      animation__up="property: position; to: -1 2.5 2; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: -1 2.4 2; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
       gltf-model="#cloud"
-      position="-1 2.2 2"
+      position="-1 2.4 2"
       scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
     ></a-entity>
     <a-entity
+      animation__up="property: position; to: 3.2 1.89 2.62; dur: 1900; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 3.2 1.8 2.6; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
       gltf-model="#cloud"
-      position="4 2.5 1"
+      position="3.2 1.8 2.6"
       scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
+    ></a-entity>
+    <a-entity
+      animation__up="property: position; to: 3.3 2.8 1; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 3.3 2.7 1; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"
+      gltf-model="#cloud"
+      position="3.3 2.7 1"
+      scale="0.002 0.002 0.002"
+      emit-when-near="distance: 5; event: animationcomplete__down"
     ></a-entity>
     <a-entity
       animation__up="property: position; to: 1 2.1 3; dur: 1000; easing: easeInOutSine; startEvents: animationcomplete__down"
@@ -209,10 +245,10 @@ function takePicture(evt) {
       emit-when-near="distance: 5; event: animationcomplete__down"
     ></a-entity>
     <a-entity
-      animation__up="property: position; to: 3 1.8 2; dur: 1100; easing: easeInOutSine; startEvents: animationcomplete__down"
-      animation__down="property: position; to: 3 1.9 2; dur: 1100; easing: easeInOutSine; startEvents: animationcomplete__up"
+      animation__up="property: position; to: 2.8 1.7 1.8; dur: 1100; easing: easeInOutSine; startEvents: animationcomplete__down"
+      animation__down="property: position; to: 2.8 1.6 1.8; dur: 1100; easing: easeInOutSine; startEvents: animationcomplete__up"
       gltf-model="#butterfly"
-      position="3 1.8 2"
+      position="2.8 1.6 1.8"
       rotation="50 90 0"
       scale="0.01 0.01 0.01"
       emit-when-near="distance: 5; event: animationcomplete__down"
@@ -239,25 +275,7 @@ function takePicture(evt) {
       sound="src: #lake; autoplay: true; loop: true; volume:0.5"
     ></a-entity>
     <a-entity
-      sound="src: #music; autoplay: true; loop: true; volume:0.2"
+      sound="src: #music; autoplay: true; loop: true; volume:0.3"
     ></a-entity>
   </a-entity>
-
-  <!-- Main room navigation mesh  -->
-  <!--   <a-entity
-    geometry="primitive: plane; height: 13.5; width: 6"
-    position="0 0.01 -4.75"
-    rotation="-90 0 0"
-    data-role="nav-mesh"
-    material="color: blue"
-    visible="false"
-  ></a-entity>
-  <a-entity
-    geometry="primitive: plane; height: .5; width: 5"
-    position="0 0.01 -11.75"
-    rotation="-90 0 0"
-    data-role="nav-mesh"
-    material="color: red"
-    visible="false"
-  ></a-entity> -->
 </template>

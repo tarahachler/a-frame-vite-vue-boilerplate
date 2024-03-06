@@ -90,9 +90,21 @@ const allAssetsLoaded = ref(false);
         id="cans"
         src="assets/cans_of_paint__varnish_lowpoly.glb"
       ></a-asset-item>
-      <a-asset-item
+      <!-- <a-asset-item
         id="portal-animation"
         src="assets/dimensiones_b.glb"
+      ></a-asset-item> -->
+      <a-asset-item
+        id="wooden-sign"
+        src="assets/wooden_sign.glb"
+      ></a-asset-item>
+      <a-asset-item
+        id="plant-1"
+        src="assets/potted_plant_mediterranean_med_leaf_low_poly.glb"
+      ></a-asset-item>
+      <a-asset-item
+        id="button"
+        src="assets/button.glb"
       ></a-asset-item>
       <audio id="lake" src="assets/lake-sound.MP3" preload="auto"></audio>
       <audio id="intro" src="assets/aev-intro.MP3" preload="auto"></audio>

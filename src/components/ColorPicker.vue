@@ -19,7 +19,7 @@ const vr = el.sceneEl.is("vr-mode");
 <template>
   <a-box
     id="palette"
-    position="0.5 1.4 1.8"
+    position="0.55 1.4 2.2"
     rotation="0 -45 0"
     width="0.3"
     height="0.5"

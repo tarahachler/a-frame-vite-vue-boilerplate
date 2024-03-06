@@ -1,6 +1,7 @@
 <script setup>
 import "../aframe/teleport-camera-rig.js";
 import "../aframe/clickable.js";
+import "../aframe/sakura-circle.js";
 
 defineProps({
   label: { type: String, default: "" },
@@ -27,25 +28,7 @@ defineProps({
       clickable
       geometry="primitive: plane; height: 9; width: 5;"
       position="0 4 0"
-      life-like-automaton="resolution: 128;"
+      sakura-circle="resolution: 100"
     ></a-entity>
   </a-entity>
-  <!-- <a-entity
-    geometry="primitive: torusKnot; p: 9; q:7 ; radius: 0.3; radiusTubular: 0.1; segmentsTubular: 64; segmentsRadial: 8"
-    clickable
-    scale="1 1 0.05"
-    :teleport-camera-rig="`
-      x: ${x};
-      y: ${y};
-      z: ${z};
-      handleRotation: ${rot === false ? 'false' : 'true'};
-      rot: ${rot === false ? 0 : rot};
-    `"
-  >
-    <a-text
-      align="center"
-      :value="label"
-      position="0 1.2 0"
-    ></a-text>
-  </a-entity> -->
 </template>

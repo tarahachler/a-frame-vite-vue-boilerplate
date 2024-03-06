@@ -20,15 +20,15 @@ AFRAME.registerComponent("point-in-box", {
     target.object3D.getWorldPosition(pointPosition);
 
     if (box.containsPoint(pointPosition)) {
-      // console.log("Le point est à l'intérieur de la boîte");
       const selectedColor = this.el.getAttribute("data-palette-color");
-      //console.log(selectedColor);
-      const colorEvent = new CustomEvent("color-picked", { detail: selectedColor });
+      const colorEvent = new CustomEvent("color-picked", {
+        detail: selectedColor,
+      });
       document.dispatchEvent(colorEvent);
-
-      const palette = document.querySelector("#palette");
-      palette.components.sound.playSound();
-
+      /* setTimeout(() => { */
+        const palette = document.querySelector("#palette");
+        palette.components.sound.playSound();
+      /* }, 1000); */
     }
   },
 });
