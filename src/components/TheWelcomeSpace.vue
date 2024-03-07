@@ -1,14 +1,9 @@
 <script setup>
-import { ref } from "vue";
-import { randomHsl } from "../utils/color.js";
-import BoxColorChanging from "./BoxColorChanging.vue";
 import PortalTeleporter from "./PortalTeleporter.vue";
 import { firstTimeinRoom } from "../state.js";
 import "../aframe/pavage.js";
 import "../aframe/listen-to.js";
 import "../aframe/clickable.js";
-
-import "../aframe/life-like-automaton.js";
 
 defineProps({
   scale: Number,
@@ -19,7 +14,6 @@ if(!firstTimeinRoom.value){
 }
 
 function startAnimation(evt) {
-  console.log("startAnimation");
   const teddyBear = evt.target;
   teddyBear.setAttribute("animation-mixer", "repetitions: 3; timeScale: 0.7");
   document.querySelector("#start-button").setAttribute("visible", false);
@@ -97,7 +91,7 @@ function startAnimation(evt) {
   </a-entity>
   <a-entity
     light="type: point; color: beige; intensity: 0.15;"
-    position="0 0 0"
+    position="0 0.2 0"
   ></a-entity>
   <a-entity
     listen-to="target: #start-button"
@@ -105,7 +99,7 @@ function startAnimation(evt) {
     gltf-model="#teddy-bear"
     position="0.5 0.2 -2.5"
     scale="1.9 1.9 1.9"
-    sound="src: #intro; autoplay: false; on: click"
+    sound="src: #intro; autoplay: false; on: click; volume: 1.2"
     @click="(evt) => startAnimation(evt)"
   >
   </a-entity>
@@ -128,6 +122,7 @@ function startAnimation(evt) {
     color="#235184"
   ></a-ocean>
   <a-entity
-    sound="src: #lake; autoplay: true; loop: true; volume:0.5"
+    listen-to="target: #start-button"
+    sound="src: #lake; autoplay: false; on: click; loop: true; volume:0.5"
   ></a-entity>
 </template>

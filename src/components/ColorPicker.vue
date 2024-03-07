@@ -2,19 +2,6 @@
 import "../aframe/listen-to.js";
 import "../aframe/emit-when-near.js";
 import "../aframe/point-in-box.js";
-
-/* function sendColor(evt) {
-  const el = evt.target;
-  console.log("sendColor");
-  const colorString = el.getAttribute("color");
-  const colorEvent = new CustomEvent("color-picked", { detail: colorString });
-  document.dispatchEvent(colorEvent);
-} */
-
-const el = document.querySelector("a-scene");
-
-//TODO : vérifier que c'est true en VR
-const vr = el.sceneEl.is("vr-mode");
 </script>
 <template>
   <a-box
@@ -29,6 +16,11 @@ const vr = el.sceneEl.is("vr-mode");
     material="opacity: 0.1"
     sound="src: #color-pick; autoplay: false;"
   >
+    <a-entity
+      id="color-picker-light"
+      light="type: point; color: beige; intensity: 0.4;"
+      position="-0.006 0.018 -0.171"
+    ></a-entity>
     <a-cylinder
       position="0.1 0.1 -0.001"
       rotation="90 0 0"
@@ -129,6 +121,57 @@ const vr = el.sceneEl.is("vr-mode");
         visible="false"
         point-in-box="target: #paintbrush-color;"
         data-palette-color="#e88846"
+      ></a-box
+    ></a-cylinder>
+    <a-cylinder
+      position="0.1 -0.1 -0.001"
+      rotation="90 0 0"
+      radius="0.03"
+      height="0.002"
+      color="#000000"
+    >
+      <a-box
+        id="palette-picker-black"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"
+        point-in-box="target: #paintbrush-color;"
+        data-palette-color="#000000"
+      ></a-box>
+    </a-cylinder>
+    <a-cylinder
+      position="0 -0.1 -0.001"
+      rotation="90 0 0"
+      radius="0.03"
+      height="0.002"
+      color="#7a7a7a"
+    >
+      <a-box
+        id="palette-picker-grey"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"
+        point-in-box="target: #paintbrush-color;"
+        data-palette-color="#7a7a7a"
+      ></a-box>
+    </a-cylinder>
+    <a-cylinder
+      position="-0.1 -0.1 -0.001"
+      rotation="90 0 0"
+      radius="0.03"
+      height="0.002"
+      color="#ffffff"
+    >
+      <a-box
+        id="palette-picker-white"
+        height="0.1"
+        width="0.1"
+        depth="0.1"
+        visible="false"
+        point-in-box="target: #paintbrush-color;"
+        data-palette-color="#ffffff"
       ></a-box
     ></a-cylinder>
   </a-box>

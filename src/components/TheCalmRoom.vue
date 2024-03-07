@@ -1,17 +1,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { randomHsl } from "../utils/color.js";
-import BoxColorChanging from "./BoxColorChanging.vue";
 import PortalTeleporter from "./PortalTeleporter.vue";
 import { copyPosition, copyRotation } from "../utils/aframe.js";
 
 import ColorPicker from "./ColorPicker.vue";
-import "../aframe/life-like-automaton.js";
 import "../aframe/pavage.js";
 import "../aframe/bind-position.js";
 import "../aframe/bind-rotation.js";
-/* import "../aframe/grabable.js";
-import "../aframe/ungrabable.js"; */
 import "../aframe/listen-to.js";
 import "../aframe/emit-when-near.js";
 import "../aframe/color-switch.js";
@@ -32,13 +28,18 @@ function grabTheThing(evt) {
       grabbedEl.dataset.dropped = el.dataset.dropped;
     }
   }
-
-  el.setAttribute("bind-position", "target: .hand");
-  el.setAttribute("bind-rotation", "target: .hand");
+    //if vr, grab the thing
+  if (document.querySelector("a-scene").is("vr-mode")) {
+    el.setAttribute("bind-position", "target: #hand-right");
+    el.setAttribute("bind-rotation", "target: #hand-right");
+  } else {
+    el.setAttribute("bind-position", "target: #desktop-hand-right");
+    el.setAttribute("bind-rotation", "target: #desktop-hand-right");
+  }
+  el.components.sound.playSound();
 
   el.dataset.grabbed = true;
   delete el.dataset.dropped;
-  el.components.sound.playSound();
 }
 
 function dropTheThing(evt) {
@@ -100,8 +101,10 @@ function takePicture(evt) {
     <a-entity
       rotation="0 40 -90"
       position="0.3 1.005 2.05"
-      emit-when-near="distance: 0.5; target: .hand; event: click"
+      emit-when-near__vr="distance: 0.5; target: #hand-right; event: click"
+      emit-when-near__desktop="distance: 0.5; target: #desktop-hand-right; event: click"
       @click="(evt) => grabTheThing(evt)"
+      sound="src: #brush-up-hand; autoplay: false; volume: 1.5;"
     >
       <a-entity
         id="paintbrush"
@@ -109,7 +112,6 @@ function takePicture(evt) {
         position="-0.02 -0.1 0"
         rotation="-45 0 0"
         scale="0.02 0.02 0.02"
-        sound="src: #brush-up-hand; autoplay: false; volume: 1.5;"
       >
         <a-sphere
           id="paintbrush-color"
@@ -154,22 +156,27 @@ function takePicture(evt) {
     ></a-entity>
     <a-entity gltf-model="#light-bulb" position="2.3 2 3.6">
       <a-entity
-        light="type: point; color: red; intensity: 0.3"
+        light="type: point; color: #ef59e1; intensity: 0.1; groudColor: #ef59e1"
         position="0 0 0"
       ></a-entity>
     </a-entity>
     <a-entity gltf-model="#light-bulb" position="1 2.5 2.5">
       <a-entity
-        light="type: point; color: blue; intensity: 0.3"
+        light="type: point; color: #e88846; intensity: 0.2; groudColor: #e88846"
         position="0 0 0"
       ></a-entity>
     </a-entity>
     <a-entity gltf-model="#light-bulb" position="2 2.3 2">
       <a-entity
-        light="type: point; color: beige; intensity: 1;"
+        light="type: point; color: #3399e5; intensity: 0.2; groudColor: #3399e5"
         position="0 0.2 0"
       ></a-entity>
     </a-entity>
+    <a-entity
+      id="main-light"
+      light="color: beige; intensity: 0.3;"
+      position="2.3 2 3.5"
+    ></a-entity>
     <a-entity
       animation__up="property: position; to: 0 2 2.98; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__down"
       animation__down="property: position; to: 0 2 2.9; dur: 2000; easing: easeInOutSine; startEvents: animationcomplete__up"

@@ -25,10 +25,8 @@ AFRAME.registerComponent("point-in-box", {
         detail: selectedColor,
       });
       document.dispatchEvent(colorEvent);
-      /* setTimeout(() => { */
         const palette = document.querySelector("#palette");
         palette.components.sound.playSound();
-      /* }, 1000); */
     }
   },
 });

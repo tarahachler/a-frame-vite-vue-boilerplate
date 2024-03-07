@@ -5,5 +5,4 @@ AFRAME.registerComponent("color-switch", {
         this.el.setAttribute('visible', true);
       });
     }
-    
 });

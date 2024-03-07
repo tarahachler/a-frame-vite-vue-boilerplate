@@ -25,9 +25,9 @@ AFRAME.registerComponent('pavage', {
           tile.setAttribute('depth', data.tileSize);                          
             
           if ((i + j) % 2 === 0) {
-            tile.setAttribute('color', data.color_1); // Couleur noire pour les cases paires
+            tile.setAttribute('color', data.color_1);
           } else {
-            tile.setAttribute('color', data.color_2); // Couleur blanche pour les cases impaires
+            tile.setAttribute('color', data.color_2);
           }
           el.appendChild(tile);
         }
