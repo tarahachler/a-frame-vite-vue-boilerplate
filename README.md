@@ -12,7 +12,7 @@
 
 ### [>> DEMO <<](https://vr49.onivers.com/tara/)
 
-## Included in the boilerplate
+## Included in the painting experience
 
 ### Libs and components
 
