@@ -57,7 +57,7 @@ function startAnimation(evt) {
       width="3"
       position="-0.1 1.8 2.67"
       rotation="-90 -170 -100"
-      color="#FFF"
+      color="beige"
       scale="8 9.6 8"
     ></a-text>
   </a-entity>
@@ -71,21 +71,21 @@ function startAnimation(evt) {
       value="L'atelier"
       width="3"
       position="-0.241 0.415 0.115"
-      color="#FFF"
+      color="beige"
       scale="1 1 1"
     ></a-text>
     <a-text
       value="d'expression"
       width="3.1"
       position="-0.4 0.29 0.115"
-      color="#FFF"
+      color="beige"
       scale="1 1 1"
     ></a-text>
     <a-text
       value="virtuel"
       width="3"
       position="-0.22 0.163 0.115"
-      color="#FFF"
+      color="beige"
       scale="1 1 1"
     ></a-text>
   </a-entity>
